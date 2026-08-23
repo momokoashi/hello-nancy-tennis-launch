@@ -1,0 +1,316 @@
+/* ==========================================================================
+   Grand Slam — collection page additions.
+
+   Kept separate from tennis.css (the shared homepage layer, edited in
+   parallel). tennis.css still loads first and supplies the LIMITED EDITION
+   flag, which both pages share.
+   ========================================================================== */
+
+/* ------------------------------------------------------- removed bands ---
+   JS hides these too; doing it in CSS as well stops them flashing in before
+   the script runs. Matched loosely on id so a template-id change is survivable.
+
+   NOTE: the section whose CLASS is "press" is the customer review carousel and
+   is deliberately NOT in this list. The "As seen on" logo strip is `instant_`.
+   -------------------------------------------------------------------------- */
+.shopify-section[id*="instant_"],
+.shopify-section[id*="experts_say"],
+.shopify-section[id*="product_table"],
+.shopify-section[id*="faq_"],
+.shopify-section[id*="collection_info"] { display: none !important; }
+
+/* ------------------------------------------------- category filter pills --
+   SUCTION / VIBRATORS / CLITORAL / G-SPOT / COUPLES TOYS. This page is a
+   single curated drop plus a fixed bestsellers row, so cross-collection
+   filtering has nothing to filter. */
+collection-tabs-carousel { display: none !important; }
+
+/* -------------------------------------------------------------- banner ---
+   A wide extended composite (see _make_banner.py), so it should fill the band
+   edge to edge rather than sit letterboxed inside it.
+
+   Scoped to .gs-banner-img, NOT to every img in the band: the hero also holds
+   the small check-circle trust icons ("Discreet Shipping", "100% Pleasure
+   Guarantee"), and a blanket rule stretched those to full-section size. */
+.gs-collection-hero img.gs-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
+.gs-collection-hero { min-height: 260px; }
+
+/* Scarcity line under the hero heading. The section ships without a subtitle
+   slot, so this element is created by the script.
+
+   It previously used `color: inherit`, which resolved to the wrapper's near-
+   black ink (#1A1A1A) rather than the heading's white — invisible against a
+   dark photograph. Pinned to white, with a shadow so it survives whatever the
+   banner crop puts behind it. */
+.gs-hero-sub {
+  margin: 12px 0 0;
+  max-width: 46ch;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.5;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .55);
+}
+
+/* The scarcity number itself — ball yellow, so "500 units only" is the thing
+   the eye lands on after the headline. */
+.gs-hero-sub__count {
+  color: #CCFD28 !important;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  /* Narrow screens do not need the extended sides — pull the crop back toward
+     the subject so the product still reads. */
+  .gs-collection-hero img.gs-banner-img { object-position: 68% 42%; }
+  .gs-collection-hero { min-height: 200px; }
+}
+
+/* -------------------------------------------------- mobile grid ordering --
+   The theme's product grid runs `grid-auto-flow: dense`. With three tennis
+   cards in a two-column layout, the Bundle sits alone in row 2 and dense
+   BACKFILLS the empty cell beside it with the next available item — Lem —
+   lifting Lem above its own "Bestsellers" heading. `order` cannot prevent
+   that; dense is explicitly allowed to reorder around gaps.
+
+   Two fixes, both needed: turn dense off so the grid honours `order`, and let
+   the Bundle span the full row on mobile so there is no empty cell to fill. */
+product-list { grid-auto-flow: row !important; }
+
+@media (max-width: 767px) {
+  .gs-bundle-card { grid-column: 1 / -1; }
+}
+
+/* -------------------------------------------------------- band headings --
+   These sit INSIDE product-list as grid items, so they have to be told to span
+   the full row. Covers both grid and flex-wrap implementations. */
+.gs-band-head {
+  grid-column: 1 / -1;
+  flex: 0 0 100%;
+  width: 100%;
+  text-align: center;
+  margin: 8px 0 4px;
+}
+.gs-band-head:not(:first-child) { margin-top: 40px; }
+
+.gs-band-head__kicker {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #14432a;
+}
+.gs-band-head__title {
+  margin: 0;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.gs-band-head__sub {
+  margin: 8px auto 0;
+  max-width: 520px;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 15px;
+  color: #4a4a46;
+}
+
+/* ----------------------------------------------------------- drop cards --
+   A soft court wash behind the three tennis cards separates the drop from the
+   bestsellers without repainting the page. */
+.gs-tennis-card .product-card__figure,
+.gs-bundle-card .product-card__figure {
+  background: #f4f8e6;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* The bundle is the money card — a keyline marks it as the offer rather than
+   as a third separate product. */
+.gs-bundle-card .product-card__figure {
+  box-shadow: inset 0 0 0 2px #14432a;
+}
+.gs-bundle-card on-sale-badge.badge--on-sale {
+  background: #14432a !important;
+  color: #ccfd28 !important;
+  font-weight: 700 !important;
+}
+
+/* --------------------------------------------------------- review band ----
+   Pale pink ground with vivid pink type, per Momo's reference. Replaces the
+   court-green treatment — the pink sits closer to the existing brand and keeps
+   the band from competing with the editorial photograph below it. */
+.gs-quotes {
+  background: #FCE9E8 !important;
+  padding-block: 24px;
+}
+.gs-quotes,
+.gs-quotes p,
+.gs-quotes span,
+.gs-quotes div { color: #FF30CC !important; }
+
+/* The review itself — the largest type in the band. */
+.gs-quotes .blockquote,
+.gs-quotes .press__list-item blockquote {
+  position: relative;
+  max-width: 22ch;
+  margin-inline: auto;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: clamp(19px, 2.4vw, 30px);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #FF30CC !important;
+}
+@media (min-width: 768px) { .gs-quotes .blockquote { max-width: 30ch; } }
+
+/* Oversized opening quote mark, set behind the text at low opacity. */
+.gs-quotes .blockquote::before {
+  content: "\201C";
+  position: absolute;
+  top: -.34em;
+  left: -.42em;
+  z-index: -1;
+  font-size: 3.1em;
+  font-weight: 700;
+  line-height: 1;
+  color: #FF30CC;
+  opacity: .17;
+  pointer-events: none;
+}
+
+/* Attribution: quieter, serif, sits well below the quote. */
+.gs-quotes .press__author {
+  margin-top: 22px;
+  color: #FF30CC !important;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .01em;
+  text-transform: none;
+  opacity: .62;
+}
+
+/* Stars in the same pink rather than the theme's amber. */
+.gs-quotes .rating__stars,
+.gs-quotes .rating__star { --star-color: #FF30CC !important; color: #FF30CC !important; }
+.gs-quotes .rating__star path { fill: #FF30CC; }
+
+/* Carousel controls, tinted to match. */
+.gs-quotes .press__controls button,
+.gs-quotes .press__controls svg { color: #FF30CC !important; fill: currentColor; }
+.gs-quotes .press__controls [aria-current="true"],
+.gs-quotes .press__controls .is-selected { background: #FF30CC !important; }
+
+/* With a single review there is nothing to page through. The class is toggled
+   in JS, so the controls return by themselves once a second review is added. */
+.gs-quotes--single .press__controls { display: none !important; }
+
+/* ------------------------------------------------------------ editorial --
+   Wide courtside band before the footer: full-bleed photo, copy over a
+   left-weighted scrim so the text stays legible whatever the crop does. */
+.gs-editorial {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(360px, 42vw, 560px);
+  overflow: hidden;
+  isolation: isolate;
+}
+.gs-editorial__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+}
+/* Scrim: strong at the left where the copy sits, clear on the right so the
+   photograph is still the subject. */
+.gs-editorial::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg,
+      rgba(20, 30, 20, .72) 0%,
+      rgba(20, 30, 20, .45) 42%,
+      rgba(20, 30, 20, 0) 72%);
+}
+.gs-editorial__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  width: 100%;
+}
+.gs-editorial__kicker {
+  display: block;
+  margin-bottom: 14px;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.gs-editorial__heading {
+  margin: 0;
+  max-width: 15ch;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: clamp(30px, 4.4vw, 58px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -.01em;
+  color: #fff;
+}
+.gs-editorial__body {
+  margin: 18px 0 0;
+  max-width: 46ch;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .92);
+}
+.gs-editorial__cta {
+  display: inline-block;
+  margin-top: 26px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: #ff30cc;
+  color: #fff !important;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background .25s ease;
+}
+.gs-editorial__cta:hover { background: #e82bb8; }
+
+@media (max-width: 767px) {
+  /* The subject sits right of frame; on mobile bias the crop toward it and
+     switch the scrim to vertical so the copy still has a dark bed. */
+  .gs-editorial { min-height: 420px; align-items: flex-end; }
+  .gs-editorial__bg { object-position: 72% 40%; }
+  .gs-editorial::after {
+    background: linear-gradient(180deg,
+        rgba(20, 30, 20, .15) 0%,
+        rgba(20, 30, 20, .55) 45%,
+        rgba(20, 30, 20, .85) 100%);
+  }
+  .gs-editorial__heading { max-width: none; }
+  .gs-editorial__body { max-width: none; }
+}

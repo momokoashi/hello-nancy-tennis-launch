@@ -1,0 +1,21 @@
+.ACC_HN_CartDrawer_03 .g-cart-container {
+  background: #fff;
+  overflow-x: auto;
+}
+
+.ACC_HN_CartDrawer_03 .g-cart-main-content {
+  height: fit-content;
+  overflow-x: visible;
+}
+
+.ACC_HN_CartDrawer_03 .g-cart-container [data-block-upsell] {
+  margin: 10px 0;
+}
+
+.ACC_HN_CartDrawer_03 .g-cart-button-container {
+  margin-bottom: 0;
+}
+
+.ACC_HN_CartDrawer_03.jc-overflow-hidden #wheelio2-app-cointainer {
+  opacity: 0;
+}

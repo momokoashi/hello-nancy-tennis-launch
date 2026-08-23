@@ -1,0 +1,363 @@
+/* ==========================================================================
+   Grand Slam overlay — tennis-launch homepage.
+
+   SCOPE (Momo, 2026-08-24): the page keeps its own Hello Nancy colours. The
+   tennis lives in three places only —
+     1. the announcement bar (deep court green)
+     2. the hero slideshow
+     3. the two limited-edition cards + the Shop Tennis Collection CTA
+   Everything below "Thoughtfully designed for your first time" is untouched.
+
+   v1 repainted the whole page; those global overrides are gone. Deleting this
+   file and tennis.js reverts the page to the mirror completely.
+   ========================================================================== */
+
+:root {
+  --gs-pink:  #ff30cc;   /* existing Hello Nancy brand pink */
+  --gs-ball:  #ccfd28;   /* existing brand lime = tennis-ball yellow */
+  --gs-court: #14432a;   /* deep court green — the one new colour */
+}
+
+/* --------------------------------------------------------- announcement --
+   The campaign strip: court green ground, ball-yellow type. This is the only
+   band on the page that changes colour. */
+.shopify-section--announcement-bar,
+.shopify-section--announcement-bar .announcement-bar,
+.shopify-section--announcement-bar [class*="jc-bg-"] {
+  background-color: var(--gs-court) !important;
+  color: var(--gs-ball) !important;
+}
+.shopify-section--announcement-bar * { color: var(--gs-ball) !important; }
+
+/* Countdown pills read as a scoreboard. */
+.shopify-section--announcement-bar [class*="timer"] span,
+.shopify-section--announcement-bar time span {
+  background: var(--gs-ball) !important;
+  color: var(--gs-court) !important;
+  border-radius: 4px;
+}
+
+/* The rotator: slides are stacked and cross-faded so the bar never changes
+   height as the copy length changes. */
+.gs-ann {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 2.4em;
+  padding: 6px 14px;
+  text-align: center;
+}
+.gs-ann__slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity .45s ease, transform .45s ease, visibility .45s;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.gs-ann__slide.is-active { opacity: 1; visibility: visible; transform: none; }
+
+/* -------------------------------------------------------------- the hero --
+   The slideshow mounts into the old <video> slot, so it inherits the hero's
+   existing height and crop exactly. */
+.gs-hero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  overflow: hidden;
+}
+.gs-hero__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+.gs-hero__slide.is-active { opacity: 1; }
+.gs-hero__slide.is-missing { display: none; }
+
+.gs-hero__dots {
+  position: absolute;
+  left: 0; right: 0; bottom: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+}
+.gs-hero__dot {
+  width: 8px; height: 8px;
+  padding: 0;
+  border: 1px solid var(--gs-court);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .65);
+  cursor: pointer;
+  transition: background .3s, width .3s;
+}
+.gs-hero__dot.is-active { background: var(--gs-pink); width: 22px; }
+
+/* ------------------------------------------------------------ split CTA --
+   Two buttons sharing the width the single button used to occupy.
+   Tennis is the HIGHLIGHTED one — it is the campaign we are driving traffic
+   to, so it carries the deep green from the announcement bar. */
+.gs-cta {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 520px;
+  margin-top: 8px;
+}
+.gs-cta__btn {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto !important;
+  margin-top: 0 !important;
+  white-space: nowrap;
+}
+
+/* Bestsellers — the original hero button, unchanged: solid brand pink. */
+.gs-cta__btn--secondary {
+  background: var(--gs-pink) !important;
+  border-color: var(--gs-pink) !important;
+}
+.gs-cta__btn--secondary .js-button-text { color: #fff !important; }
+.gs-cta__btn--secondary:hover { background: #e82bb8 !important; border-color: #e82bb8 !important; }
+
+/* Primary — deep court green, matching the announcement bar. */
+.gs-cta__btn--tennis {
+  background: var(--gs-court) !important;
+  border-color: var(--gs-court) !important;
+}
+.gs-cta__btn--tennis .js-button-text { color: var(--gs-ball) !important; }
+.gs-cta__btn--tennis:hover {
+  background: #0e3220 !important;
+  border-color: #0e3220 !important;
+}
+
+@media (max-width: 600px) {
+  .gs-cta { flex-direction: column; gap: 8px; max-width: none; }
+  .gs-cta__btn { white-space: normal; }
+}
+
+/* ------------------------------------------------- LIMITED EDITION flag --
+   Deliberately louder than the small corner tag used elsewhere on the site:
+   a full diagonal banner in brand pink with a hard shadow. */
+.gs-has-limited { position: relative; overflow: hidden; }
+
+/* The theme's own "SAVE $70.00 USD" flash sits top-LEFT, so this sits on the
+   RIGHT edge and cannot collide with it. A straight vertical tab rather than a
+   diagonal corner ribbon: it reads at a glance and never clips a corner. */
+.gs-limited {
+  position: absolute;
+  top: 14px;
+  right: 0;
+  z-index: 3;
+  padding: 8px 12px 8px 14px;
+  background: var(--gs-pink);
+  color: #fff;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: 999px 0 0 999px;
+  box-shadow: 0 3px 12px rgba(20, 67, 42, .4);
+  pointer-events: none;
+}
+/* Ball-yellow pip, so the tab reads as the tennis drop and not a sale flash. */
+.gs-limited::before {
+  content: "";
+  display: inline-block;
+  width: 7px; height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--gs-ball);
+  vertical-align: baseline;
+}
+
+@media (max-width: 600px) {
+  .gs-limited { font-size: 10px; padding: 6px 9px 6px 11px; top: 10px; }
+  .gs-limited::before { width: 6px; height: 6px; margin-right: 5px; }
+}
+
+/* Nothing here transacts — do not imply a working store. */
+form[action*="/cart"] button[type="submit"],
+a[href*="/checkout"] { cursor: not-allowed; }
+
+/* ==========================================================================
+   TENNIS COLLECTION band — injected after the best-sellers grid by tennis.js.
+   Four layouts share these tokens; each `[data-variant]` block below styles
+   one. Palette stays Hello Nancy: cream ground, ink type, pink + court green.
+   ========================================================================== */
+
+.gs-tc { background: #FCF7ED; padding: 56px 0 64px; }
+.gs-tc__inner { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+
+.gs-tc__head { text-align: center; margin-bottom: 28px; }
+.gs-tc__kicker {
+  display: block;
+  margin: 0 0 10px;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gs-court);
+}
+.gs-tc__heading {
+  margin: 0; font-family: Fraunces, Georgia, serif;
+  font-size: clamp(28px, 4vw, 44px); font-weight: 600; color: #1A1A1A;
+}
+.gs-tc__sub {
+  margin: 10px auto 0; max-width: 540px;
+  font-family: Fraunces, Georgia, serif; font-size: 16px; color: #4a4a46;
+}
+
+.gs-tc__price { font-weight: 700; color: var(--gs-pink); }
+.gs-tc__was   { margin-left: 6px; text-decoration: line-through; opacity: .55; }
+
+/* ------------------------------------------------------------ duo tiles -- */
+.gs-tc[data-variant="duo"] .gs-tc__stage,
+.gs-tc[data-variant="banner"] .gs-tc__row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.gs-tc__tile {
+  position: relative; display: block; overflow: hidden;
+  border-radius: 16px; aspect-ratio: 4 / 3; text-decoration: none;
+}
+.gs-tc__tile img,
+.gs-tc__banner img,
+.gs-tc__diphalf img,
+.gs-tc__edimg img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .6s ease;
+}
+.gs-tc__tile:hover img,
+.gs-tc__diphalf:hover img { transform: scale(1.04); }
+
+.gs-tc__scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.55) 100%);
+}
+.gs-tc__body {
+  position: absolute; left: 22px; right: 22px; bottom: 20px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+}
+.gs-tc__body .gs-tc__kicker { color: #fff; opacity: .9; margin: 0; }
+.gs-tc__name {
+  font-family: Fraunces, Georgia, serif; font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 600; color: #fff; line-height: 1.1;
+}
+.gs-tc__line {
+  font-family: Fraunces, Georgia, serif; font-size: 15px; color: #f3efe6;
+  max-width: 34ch;
+}
+.gs-tc__btn {
+  margin-top: 10px; padding: 10px 20px; border-radius: 999px;
+  background: #fff; color: #1A1A1A;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: .04em;
+}
+.gs-tc__tile:hover .gs-tc__btn { background: var(--gs-ball); }
+
+/* ------------------------------------------------------------ editorial -- */
+.gs-tc[data-variant="editorial"] .gs-tc__ed {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-radius: 16px; overflow: hidden; background: #fff;
+}
+.gs-tc__edimg { display: block; aspect-ratio: 4 / 5; }
+.gs-tc__edpanel { padding: clamp(24px, 4vw, 56px); align-self: center; }
+.gs-tc__edhead {
+  margin: 0 0 12px; font-family: Fraunces, Georgia, serif;
+  font-size: clamp(30px, 4vw, 48px); font-weight: 600; color: #1A1A1A;
+}
+.gs-tc__list { list-style: none; margin: 20px 0 26px; padding: 0; }
+.gs-tc__list li {
+  padding: 12px 0; border-top: 1px solid rgba(26,26,26,.12);
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif; font-size: 15px;
+}
+.gs-tc__list li:last-child { border-bottom: 1px solid rgba(26,26,26,.12); }
+.gs-tc__cta {
+  display: inline-block; padding: 14px 28px; border-radius: 999px;
+  background: var(--gs-court); color: var(--gs-ball); text-decoration: none;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.gs-tc__cta:hover { background: #0e3220; }
+
+/* --------------------------------------------------------------- banner -- */
+.gs-tc__banner {
+  position: relative; display: block; overflow: hidden;
+  border-radius: 16px; aspect-ratio: 21 / 8; margin-bottom: 16px;
+}
+.gs-tc__bannercopy {
+  position: absolute; left: 0; right: 0; bottom: 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.gs-tc__bannercopy .gs-tc__kicker { color: #fff; margin: 0; }
+.gs-tc__card {
+  display: block; background: #fff; border-radius: 14px;
+  overflow: hidden; text-decoration: none; color: inherit;
+}
+.gs-tc__cardimg { position: relative; display: block; aspect-ratio: 1 / 1; }
+.gs-tc__cardimg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gs-tc__cardbody { display: block; padding: 16px 18px 20px; }
+.gs-tc__cardbody .gs-tc__name { color: #1A1A1A; font-size: 22px; }
+.gs-tc__cardbody .gs-tc__line { color: #55554f; }
+.gs-tc__prices { display: block; margin-top: 8px; font-size: 16px; }
+
+/* -------------------------------------------------------------- diptych -- */
+.gs-tc__dip { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.gs-tc__diphalf {
+  position: relative; display: block; overflow: hidden;
+  border-radius: 16px; aspect-ratio: 3 / 4; text-decoration: none;
+}
+.gs-tc__diplabel {
+  position: absolute; left: 18px; bottom: 18px; padding: 9px 16px;
+  border-radius: 999px; background: rgba(255,255,255,.94); color: #1A1A1A;
+  font-family: "ES Rebond Grotesque", Barlow, sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: .06em;
+}
+.gs-tc__diplabel em { font-style: normal; color: var(--gs-pink); }
+.gs-tc__plate {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 26px 34px; border-radius: 14px; text-align: center;
+  background: #FCF7ED; box-shadow: 0 10px 40px rgba(20,67,42,.22);
+}
+.gs-tc__platehead {
+  font-family: Fraunces, Georgia, serif; font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600; color: #1A1A1A; line-height: 1.1;
+}
+
+/* --------------------------------------------------------------- mobile -- */
+@media (max-width: 760px) {
+  .gs-tc[data-variant="duo"] .gs-tc__stage,
+  .gs-tc[data-variant="banner"] .gs-tc__row,
+  .gs-tc[data-variant="editorial"] .gs-tc__ed,
+  .gs-tc__dip { grid-template-columns: 1fr; }
+  .gs-tc__banner { aspect-ratio: 16 / 10; }
+  .gs-tc__plate { position: static; transform: none; margin-top: 10px; }
+}
+
+/* ------------------------------------------------- local preview picker -- */
+.gs-tc__picker {
+  position: fixed; right: 14px; bottom: 14px; z-index: 99999;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  max-width: 92vw; padding: 8px 10px; border-radius: 999px;
+  background: rgba(20,67,42,.95); box-shadow: 0 6px 24px rgba(0,0,0,.25);
+}
+.gs-tc__picker span {
+  color: #fff; opacity: .75; font: 600 11px/1 "ES Rebond Grotesque", Barlow, sans-serif;
+  letter-spacing: .08em; text-transform: uppercase; padding: 0 4px;
+}
+.gs-tc__picker button {
+  padding: 7px 12px; border: 0; border-radius: 999px; cursor: pointer;
+  background: rgba(255,255,255,.14); color: #fff;
+  font: 700 12px/1 "ES Rebond Grotesque", Barlow, sans-serif;
+}
+.gs-tc__picker button.is-on { background: var(--gs-ball); color: var(--gs-court); }

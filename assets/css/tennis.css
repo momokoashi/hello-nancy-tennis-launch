@@ -17,33 +17,36 @@
   --gs-ball:   #ccfd28;  /* existing brand lime = tennis-ball yellow */
   --gs-court:  #14432a;  /* deep court green — buttons, kickers */
   /* Announcement bar + the Shop Tennis Collection button. Same hue and
-     saturation as --gs-court, stepped lighter: midway between the "1 shade
-     weaker" (#1C5E3B) and "2 shades weaker" (#247A4C) options.
-     Ball-yellow type on it is 5.36:1 — still WCAG AA. */
-  --gs-banner:       #206c44;
-  --gs-banner-hover: #195435;
+     saturation as --gs-court, stepped lighter to the "2 shades weaker" step.
+
+     Type on this green is WHITE, not the brand ball-yellow: at this lightness
+     #ccfd28 falls to 4.45:1 (large-text only) while white holds 5.30:1 and
+     passes AA for normal text. The yellow only worked on the darker greens.
+     If this token is ever darkened again, the yellow becomes an option. */
+  --gs-banner:       #247a4c;
+  --gs-banner-hover: #1c5e3b;
+  --gs-banner-ink:   #ffffff;
 }
 
 /* --------------------------------------------------------- announcement --
    The campaign strip. This is the only band on the page that changes colour.
 
-   Ball-yellow type on the deep green is 9.46:1 — comfortably WCAG AA.
-   (A lighter banner green flips this: on #6b951b the same yellow drops to
-   2.97:1 and fails, so if this green is ever lightened much, the text colour
-   has to be revisited at the same time.) */
+   White type at 5.30:1 — passes WCAG AA for normal text. See the note on
+   --gs-banner for why this is white rather than the brand ball-yellow. */
 .shopify-section--announcement-bar,
 .shopify-section--announcement-bar .announcement-bar,
 .shopify-section--announcement-bar [class*="jc-bg-"] {
   background-color: var(--gs-banner) !important;
-  color: var(--gs-ball) !important;
+  color: var(--gs-banner-ink) !important;
 }
-.shopify-section--announcement-bar * { color: var(--gs-ball) !important; }
+.shopify-section--announcement-bar * { color: var(--gs-banner-ink) !important; }
 
-/* Countdown pills read as a scoreboard. */
+/* Countdown pills read as a scoreboard. Ball-yellow survives here because the
+   digits are large and bold, and dark green on yellow is 8.6:1 regardless. */
 .shopify-section--announcement-bar [class*="timer"] span,
 .shopify-section--announcement-bar time span {
   background: var(--gs-ball) !important;
-  color: var(--gs-banner) !important;
+  color: var(--gs-court) !important;
   border-radius: 4px;
 }
 
@@ -144,7 +147,8 @@
   background: var(--gs-banner) !important;
   border-color: var(--gs-banner) !important;
 }
-.gs-cta__btn--tennis .js-button-text { color: var(--gs-ball) !important; }
+/* White, matching the bar — ball-yellow is only 4.45:1 on this green. */
+.gs-cta__btn--tennis .js-button-text { color: var(--gs-banner-ink) !important; }
 .gs-cta__btn--tennis:hover {
   background: var(--gs-banner-hover) !important;
   border-color: var(--gs-banner-hover) !important;

@@ -38,7 +38,7 @@
        ~320px  the three product cards
        = ~800px, inside 900 with room to spare.
      82vh (the previous value) alone ate 738px and pushed everything under. */
-  height: clamp(240px, 32vh, 380px);
+  height: clamp(230px, 30vh, 360px);
   overflow: hidden;
   background: #0d0d0d;
 }
@@ -64,6 +64,11 @@
   display: none !important;
 }
 .gs-v2-page .shopify-section--main-collection { padding-top: 6px !important; }
+
+/* The wrapper around the grid is a `v-stack gap-6` — a 24px flex gap that only
+   separates the grid from the (now hidden) filter row. Worth reclaiming: it was
+   the difference between 11px and ~50px of headroom on desktop. */
+.gs-v2-page .v-stack:has(product-list) { gap: 0 !important; }
 .gs-v2-page .gs-band-head,
 .gs-v2-page .gs-band-head:not(:first-child) {
   margin-top: 12px !important;
@@ -167,7 +172,11 @@
 .gs-v2-hero.is-poster-only .gs-v2-hero__video { pointer-events: none; }
 
 @media (max-width: 767px) {
-  .gs-v2-hero { height: clamp(420px, 72vh, 620px); }
+  /* This was left at 72vh when the desktop hero was shortened — 585px on a
+     375x812 phone, which pushed the product row 213px below the fold while
+     desktop looked fine. Mobile budget: chrome ~178 + hero ~260 + heading ~58
+     + cards ~181 = ~677 of 812. */
+  .gs-v2-hero { height: clamp(200px, 32vh, 300px); }
   .gs-v2-hero__video { object-position: 62% 42%; }
 }
 

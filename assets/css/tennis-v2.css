@@ -132,6 +132,18 @@
   text-shadow: 0 2px 26px rgba(0, 0, 0, .45);
 }
 
+/* Brand line, sitting under the collection name. Serif against the sans
+   headline so the two read as different voices rather than one wrapped line. */
+.gs-v2-hero__tagline {
+  margin: 2px 0 0;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(15px, 1.7vw, 22px);
+  font-weight: 400;
+  letter-spacing: .01em;
+  color: #fff;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, .55);
+}
+
 .gs-v2-hero__cta {
   margin-top: 8px;
   padding-bottom: 3px;

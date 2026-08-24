@@ -27,10 +27,14 @@
     poster: 'assets/img/tennis/banner.jpg',
 
     // Deliberately tiny. The whole point of v2 is that the film does the work.
-    // The collection name is the eyebrow so the big type can be the brand line.
-    eyebrow: 'Tennis Collection · 500 only',
-    line: 'Game. Set. O.',
-    cta: { label: 'Shop the collection', href: '#gs-shop' }
+    // The collection name is the big type; the brand line sits under it.
+    eyebrow: 'Limited edition · 500 only',
+    line: 'Tennis Collection',
+    tagline: 'Game. Set. O.',
+    // No CTA: this hero sits ON the collection page, so "shop the collection"
+    // would link to the page the reader is already on. Set `cta` to bring the
+    // button back if this hero is ever reused elsewhere.
+    cta: null
   };
 
   function ready(fn) {
@@ -81,12 +85,18 @@
     overlay.innerHTML =
       '<span class="gs-v2-hero__eyebrow"></span>' +
       '<h1 class="gs-v2-hero__line"></h1>' +
-      '<a class="gs-v2-hero__cta"></a>';
+      (CONFIG.tagline ? '<p class="gs-v2-hero__tagline"></p>' : '') +
+      (CONFIG.cta ? '<a class="gs-v2-hero__cta"></a>' : '');
     overlay.querySelector('.gs-v2-hero__eyebrow').textContent = CONFIG.eyebrow;
     overlay.querySelector('.gs-v2-hero__line').textContent = CONFIG.line;
-    var cta = overlay.querySelector('.gs-v2-hero__cta');
-    cta.textContent = CONFIG.cta.label;
-    cta.href = CONFIG.cta.href;
+    if (CONFIG.tagline) {
+      overlay.querySelector('.gs-v2-hero__tagline').textContent = CONFIG.tagline;
+    }
+    if (CONFIG.cta) {
+      var cta = overlay.querySelector('.gs-v2-hero__cta');
+      cta.textContent = CONFIG.cta.label;
+      cta.href = CONFIG.cta.href;
+    }
 
     stage.appendChild(vid);
     stage.appendChild(overlay);

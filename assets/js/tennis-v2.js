@@ -27,8 +27,9 @@
     poster: 'assets/img/tennis/banner.jpg',
 
     // Deliberately tiny. The whole point of v2 is that the film does the work.
-    eyebrow: 'Limited edition · 500 only',
-    line: 'Ace & Smash',
+    // The collection name is the eyebrow so the big type can be the brand line.
+    eyebrow: 'Tennis Collection · 500 only',
+    line: 'Game. Set. O.',
     cta: { label: 'Shop the collection', href: '#gs-shop' }
   };
 

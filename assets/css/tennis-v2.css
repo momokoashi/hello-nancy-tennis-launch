@@ -29,9 +29,16 @@
 .gs-v2-hero {
   position: relative;
   width: 100%;
-  /* Tall enough to read as a film rather than a banner, but never taller than
-     the viewport, so the first product row stays reachable. */
-  height: clamp(460px, 82vh, 820px);
+  /* SHORT ON PURPOSE. The brief is that the film AND all three products clear
+     the fold, so the hero gets a fixed share of the viewport rather than most
+     of it. Rough budget on a 1280x900 desktop:
+       ~110px  announcement bar + header
+        330px  this hero (36vh)
+        ~40px  band heading
+       ~320px  the three product cards
+       = ~800px, inside 900 with room to spare.
+     82vh (the previous value) alone ate 738px and pushed everything under. */
+  height: clamp(260px, 36vh, 420px);
   overflow: hidden;
   background: #0d0d0d;
 }
@@ -132,6 +139,67 @@
 
 /* Card blurbs — the product name and price carry enough. */
 .gs-v2-page .product-card__short-description { display: none !important; }
+
+/* ==========================================================================
+   THREE-UP TENNIS ROW
+
+   The brief: all three tennis products above the fold, mobile and desktop.
+   The theme's grid is 2 columns on mobile, so three cards wrapped and the
+   third dropped below the fold on its own row.
+
+   Rather than lifting the cards out of <product-list> — which would make v1's
+   MutationObserver think they were gone and clone a duplicate set — the grid is
+   re-divided into a common multiple. Tennis cards take a third of the row,
+   bestsellers keep their usual count:
+
+     mobile   6 columns -> tennis span 2 (3-up), bestsellers span 3 (2-up)
+     desktop 12 columns -> tennis span 4 (3-up), bestsellers span 3 (4-up)
+   ========================================================================== */
+.gs-v2-page product-list {
+  grid-template-columns: repeat(6, 1fr) !important;
+  gap: 10px !important;
+}
+.gs-v2-page product-list > product-card { grid-column: span 3; }
+.gs-v2-page product-list > .gs-drop-card { grid-column: span 2; }
+
+/* v1 gives the bundle the full row on mobile so its 2-col grid has no gap.
+   That would break the 3-up, so it is reset here. */
+.gs-v2-page .gs-bundle-card { grid-column: span 2 !important; }
+
+@media (min-width: 768px) {
+  .gs-v2-page product-list {
+    grid-template-columns: repeat(12, 1fr) !important;
+    gap: 16px !important;
+  }
+  .gs-v2-page product-list > product-card { grid-column: span 3; }
+  .gs-v2-page product-list > .gs-drop-card { grid-column: span 4; }
+  .gs-v2-page .gs-bundle-card { grid-column: span 4 !important; }
+}
+
+/* Cap the card image so three of them cannot push the row past the fold. A
+   square image at desktop 3-up would be ~400px tall on its own. */
+.gs-v2-page .gs-drop-card .product-card__figure {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.gs-v2-page .gs-drop-card .product-card__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* At 3-up on a 375px screen each card is ~110px wide — tighten the type so the
+   name and price still fit rather than wrapping to four lines. */
+@media (max-width: 767px) {
+  .gs-v2-page .gs-drop-card .product-card__title a { font-size: 12px; line-height: 1.25; }
+  .gs-v2-page .gs-drop-card price-list { font-size: 12px; }
+  .gs-v2-page .gs-drop-card on-sale-badge { font-size: 9px; padding: 3px 6px; }
+  /* The limited-edition tab would cover most of a 110px card. */
+  .gs-v2-page .gs-drop-card .gs-limited {
+    font-size: 8px; padding: 4px 6px 4px 7px; top: 6px;
+  }
+  .gs-v2-page .gs-drop-card .gs-limited::before { width: 4px; height: 4px; margin-right: 4px; }
+}
 
 /* Band kickers and sub-lines: the headings alone are enough signposting. */
 .gs-v2-page .gs-band-head__kicker,

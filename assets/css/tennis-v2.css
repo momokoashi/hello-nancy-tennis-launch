@@ -49,8 +49,20 @@
    band heading ~45, so the hero gets ~290 and the margins below have to be
    tight. Every number under here exists to buy back those pixels. */
 
-/* The theme leaves ~56px between the hero and the grid, then the band heading
-   adds a 40px top margin on top of that. */
+/* The 128px between hero and first card measured as:
+     62  wrapper space   <- mostly the hidden filter carousel's PARENT
+     12  band heading margin-top
+     32  band heading
+      6  band heading margin-bottom
+     16  grid row-gap
+
+   tennis-collection.css hides <collection-tabs-carousel>, but its wrapper div
+   keeps a 32px top margin and the flex parent still counts a 24px gap for it —
+   56px of space reserved for an element nobody can see. Removing the wrapper
+   too is what lets the hero stay at a usable 288px instead of shrinking again. */
+.gs-v2-page .shopify-section--main-collection div:has(> collection-tabs-carousel) {
+  display: none !important;
+}
 .gs-v2-page .shopify-section--main-collection { padding-top: 6px !important; }
 .gs-v2-page .gs-band-head,
 .gs-v2-page .gs-band-head:not(:first-child) {

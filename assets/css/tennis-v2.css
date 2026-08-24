@@ -38,9 +38,24 @@
        ~320px  the three product cards
        = ~800px, inside 900 with room to spare.
      82vh (the previous value) alone ate 738px and pushed everything under. */
-  height: clamp(260px, 36vh, 420px);
+  height: clamp(240px, 32vh, 380px);
   overflow: hidden;
   background: #0d0d0d;
+}
+
+/* ---- fold budget, measured at 1280x900 -----------------------------------
+   Site chrome (topbar 44 + announcement 54 + header ~103) = 201px, leaving
+   699px. The three cards need ~305 (16:9 figure 213 + 92 of text) and the
+   band heading ~45, so the hero gets ~290 and the margins below have to be
+   tight. Every number under here exists to buy back those pixels. */
+
+/* The theme leaves ~56px between the hero and the grid, then the band heading
+   adds a 40px top margin on top of that. */
+.gs-v2-page .shopify-section--main-collection { padding-top: 6px !important; }
+.gs-v2-page .gs-band-head,
+.gs-v2-page .gs-band-head:not(:first-child) {
+  margin-top: 12px !important;
+  margin-bottom: 6px !important;
 }
 
 .gs-v2-hero__video {
@@ -176,10 +191,12 @@
   .gs-v2-page .gs-bundle-card { grid-column: span 4 !important; }
 }
 
-/* Cap the card image so three of them cannot push the row past the fold. A
-   square image at desktop 3-up would be ~400px tall on its own. */
+/* Cap the card image so three of them cannot push the row past the fold. At
+   desktop 3-up each card is ~379px wide, so a square figure would be 379px
+   tall on its own and 4:3 was still 284px. 16:9 lands at 213px, which is what
+   makes the fold budget work. */
 .gs-v2-page .gs-drop-card .product-card__figure {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 .gs-v2-page .gs-drop-card .product-card__figure img {

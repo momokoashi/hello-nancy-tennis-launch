@@ -23,8 +23,13 @@
      #ccfd28 falls to 4.45:1 (large-text only) while white holds 5.30:1 and
      passes AA for normal text. The yellow only worked on the darker greens.
      If this token is ever darkened again, the yellow becomes an option. */
-  --gs-banner:       #247a4c;
-  --gs-banner-hover: #1c5e3b;
+  /* P2 — sampled from the ACE/SMASH packaging. The box wordmark green is
+     hue 150deg; this is that same hue stepped to a lighter tone, so the
+     banner and the boxes read as one colour family.
+     White type on it is 4.50:1 — passing AA, but only just. If this green is
+     ever lightened again the text has to change with it. */
+  --gs-banner:       #2d8659;
+  --gs-banner-hover: #256f4a;
   --gs-banner-ink:   #ffffff;
 }
 
